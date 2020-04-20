@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.PixelCopy;
+import android.view.SurfaceControl;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         btn = findViewById(R.id.btn_save);
         btn2 = findViewById(R.id.btn_save2);
-        shotView = findViewById(R.id.shotView);
-
+//        shotView = findViewById(R.id.shotView);
+        shotView = getWindow().getDecorView();
         btn.setOnClickListener(this);
         btn2.setOnClickListener(this);
 
@@ -60,10 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //獲取螢幕(擷取範圍)方法2， 官方推薦使用PixelCopy
     public void screenshot2() {
 
-        //这里将LinearLayout布局转换成Bitmap给ImageView显示，也可使用getWindow().getDecorView()取得所有布局
+        //这里将View转换成Bitmap给ImageView显示，也可使用getWindow().getDecorView()取得所有布局
         //准备一个bitmap对象，用来将copy出来的区域绘制到此对象中
         final Bitmap bmp = Bitmap.createBitmap(shotView.getWidth(), shotView.getHeight(), Bitmap.Config.ARGB_8888, true);//最後一項是色彩模式
-
         //获取layout的位置，取得的座標位置會放置到location裡面
         final int[] location = new int[2];
         shotView.getLocationInWindow(location);
