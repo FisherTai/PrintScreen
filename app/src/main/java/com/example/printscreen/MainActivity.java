@@ -3,8 +3,11 @@ package com.example.printscreen;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -33,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private View shotView;
     private Button btn;
     private Button btn2;
-    private Button btn3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         btn = findViewById(R.id.btn_save);
         btn2 = findViewById(R.id.btn_save2);
-        btn3 = findViewById(R.id.btn_save3);
+
         shotView = findViewById(R.id.shotView);
 
         btn.setOnClickListener(this);
         btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
 
     }
 
@@ -124,37 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void screenshot3(){
 
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int screenWidth = metric.widthPixels;     // 螢幕寬度（畫素）
-        int screenHeight = metric.heightPixels;   // 螢幕高度（畫素）
-        // rect是描述一个截取部分图的方块，我这里是截取全部，所以是(0, 0, 0, 0)
-        // screenWidth 屏幕宽度
-        // screenHeight 屏幕高度
-        // rotation 屏幕旋转角度，整数0|90|180|270
-        Rect rect = new Rect(0, 0, 0, 0);
-        int rotation = 0;
-//        int screenWidth = 1080;
-//        int screenHeight = 1920;
-
-        try {
-            Bitmap bitmap = (Bitmap) Class.forName("android.view.SurfaceControl").getDeclaredMethod("screenshot",  new Class[]{Rect.class, Integer.TYPE, Integer.TYPE, Integer.TYPE })
-                    .invoke(null, new Object[]{rect, screenWidth, screenHeight, rotation});
-            if (bitmap == null){
-                Log.d(TAG, "screenshot3: null");
-            }else {
-                SaveShopImage(bitmap);
-            }
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, "IllegalAccessException: "+e.toString());
-        } catch (InvocationTargetException e) {
-            Log.e(TAG, "InvocationTargetException: "+e.toString());
-        } catch (NoSuchMethodException e) {
-            Log.e(TAG, "NoSuchMethodException: "+e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e(TAG, "ClassNotFoundException: "+e.toString());
-        }
-
     }
 
 
@@ -164,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             screenshot1();
         }else if(v == btn2){
             screenshot2();
-        }else if(v == btn3){
-            screenshot3();
         }
 
     }
